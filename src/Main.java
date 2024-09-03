@@ -1,13 +1,14 @@
-import java.util.HashMap;
+import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
+public class Main{
 
     public static void main(String[] args) {
 
-        HashMap<String, HotelReservation> reservationsMap = new HashMap<String, HotelReservation>();
+        LinkedList<HotelReservation> reservationsList = new LinkedList<>();
 
 
 
@@ -21,7 +22,10 @@ public class Main {
             System.out.println("1/ voir le nombre des chambres libre \n" +
                     "2/ voir le nombre de chambre Maximale d'hotel \n" +
                     "3/ faire une reservation \n " +
-                    "4/ Quitter"
+                    "4/ modifier une reservation \n " +
+                    "5/ supprimer une reservation \n " +
+                    "6/ voir une reservation \n " +
+                    "7/ Quitter"
             );
 
 
@@ -30,7 +34,7 @@ public class Main {
 
             switch(choix) {
                 case 1:
-                    System.out.println("L'hotel à " + (hotelRoomManagement.gethotelMaxRooms() - hotelRoomManagement.getHotelAvailableRoomsCount()) + "Chambres vide");
+                    System.out.println("L'hotel à " +  hotelRoomManagement.getHotelAvailableRoomsCount() + "Chambres vide");
                     break;
                 case 2:
                     System.out.println("L'hotel à " + hotelRoomManagement.gethotelMaxRooms() + "Chambres;");
@@ -38,12 +42,27 @@ public class Main {
                     break;
                 case 3:{
 
+                    HotelReservation newReservation = HotelReservation.CreateNewReservation( reservationsList);
+                    reservationsList.add(newReservation);
+                }
+                break;
+                case 4: {
+                    HotelReservation.modifyReservation(reservationsList);
+                    break;
+                }
 
+                case 5: {
+                    HotelReservation.deleteReservation(reservationsList);
+                    break;
+                }
+
+                case 6: {
+                  HotelReservation.viewReservation(reservationsList);
+                    break;
                 }
 
 
-                    break;
-                case 4:
+                case 7:
                     System.out.println("see you soon");
                     return;
 
@@ -52,51 +71,8 @@ public class Main {
                     System.out.println("there is no actions for this choice");
             }
 
-        }while(choix < 4);
+        }while(choix < 7);
     }
-
-
-  /*  public void menu(){
-
-        System.out.println("1/ voir le nombre des chambres libre \n" +
-                "2/ voir le nombre de chambre Maximale d'hotel \n" +
-                "3/ faire une reservation \n " +
-                "4/ Quitter"
-        );
-    } */
-
-    public static String[] CreateNewReservation(){
-        Scanner sc = new Scanner(System.in);
-        String principalGuestName ;
-        int numberOfRoomsForReservation ;
-        int numberOfPersons ;
-
-
-        System.out.println("enter the principal guest name :");
-        principalGuestName = sc.nextLine();
-        System.out.println("enter the number Of Rooms For Reservation :");
-        numberOfRoomsForReservation = sc.nextInt();
-        System.out.println("enter the number Of Persons :");
-        numberOfPersons = sc.nextInt();
-
-        HotelReservation createNewReservation = new HotelReservation(principalGuestName , numberOfRoomsForReservation, numberOfPersons);
-
-
-        if(!createNewReservation.reservation()) {
-
-            System.out.println("the reservation is not possible caused of the the number of the rooms needed");
-            return null;
-        }else{
-
-            System.out.println("the reservation is succeeded");
-            String numberOfRoomsForReservationToString = Integer.toString(numberOfRoomsForReservation);
-            String numberOfPersonsToString = Integer.toString(numberOfPersons);
-
-            String[] guestData = {principalGuestName, numberOfRoomsForReservationToString,numberOfPersonsToString};
-            return guestData;
-        }
-    }
-
 
 
 
